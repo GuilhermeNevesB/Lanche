@@ -1,11 +1,9 @@
 package br.grupointegrado.lanches.controller;
+import br.grupointegrado.lanches.dto.ClienteRequestDTO;
 import br.grupointegrado.lanches.model.Cliente;
 import br.grupointegrado.lanches.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -29,4 +27,17 @@ public class ClienteController {
         return this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente nao encontrado"));
     }
+
+    @PostMapping
+    public Cliente save(@RequestBody ClienteRequestDTO dto) {
+        Cliente cliente = new Cliente();
+
+        cliente.setNome(dto.nome());
+        cliente.setEmail(dto.email());
+        cliente.setTelefone(dto.telefone());
+
+        return this.repository.save(cliente);
+    }
+
+
 }
