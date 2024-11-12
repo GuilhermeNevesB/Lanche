@@ -39,5 +39,24 @@ public class ClienteController {
         return this.repository.save(cliente);
     }
 
+    @PutMapping("/{id}")
+    public Cliente update(@PathVariable Integer id, @RequestBody ClienteRequestDTO dto) {
+        Cliente cliente = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente nao encontrado"));
 
+        cliente.setNome(dto.nome());
+        cliente.setEmail(dto.email());
+        cliente.setTelefone(dto.telefone());
+
+        return this.repository.save(cliente);
+    }
+    @DeleteMapping("/{id}")
+    public void delete (@PathVariable Integer id) {
+
+        Cliente cliente = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente nao encontrado"));
+
+        this.repository.delete(cliente);
+
+    }
 }
