@@ -1,9 +1,12 @@
 package br.grupointegrado.lanches.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "produtos")
@@ -21,6 +24,11 @@ public class Produto {
 
     @Column
     private String descricao;
+
+    //on para muuitos
+    @OneToMany (mappedBy = "produto", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties ("produto")
+    private List<Ingrediente> ingredientes;
 
 
     public int getId() {
@@ -53,5 +61,13 @@ public class Produto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public List<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
     }
 }
